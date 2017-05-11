@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace TaskManager.Models
 {
-    public class Admin
+    public class Admin : User
     {
+        public bool God { get; set; }
     }
 }

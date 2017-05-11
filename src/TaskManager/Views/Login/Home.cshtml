@@ -1,0 +1,19 @@
+﻿@model TaskManager.Models.User
+@{
+}
+
+<h2>Home</h2>
+
+@if (String.IsNullOrEmpty(Model.FirstName))
+{
+    <h1>No user to display</h1>
+
+}
+else
+{
+    <h1>Welcome @Model.FirstName @Model.LastName</h1>
+    <p>@Model.Email</p>
+    <p>@Model.Phone</p>
+    <p>@Model.Password</p>
+
+}
