@@ -25,12 +25,21 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string email)
+        public IActionResult Index(IndexViewModel indexViewModel)
         {
+
+            if (ModelState.IsValid)
+            { 
             UserData userData = new UserData();
-            User user = userData.GetByEmail(email);
+            User user = userData.GetByEmail(indexViewModel.Email);
 
             return RedirectToAction("Home", new { id = user.UserID });
+            }
+            else
+            {
+                return View(indexViewModel);
+            }
+
         }
 
         [HttpGet]

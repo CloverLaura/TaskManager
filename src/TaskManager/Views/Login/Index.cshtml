@@ -1,16 +1,19 @@
-﻿@{
+﻿@model TaskManager.ViewModels.IndexViewModel
+@{
 }
 <p>No account? <a asp-area="" asp-controller="Login" asp-action="SignUp">Sign up!</a></p>
 <h1>Login</h1>
 
-<form method="post">
-    <div class="form-element">
-        <label>Email</label>
-        <input name="Email" type="email" />
+<form asp-controller="Login" asp-action="Index">
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input class="form-control" asp-for="Email" />
+        <span asp-validation-for="Email"></span>
     </div>
-    <div class="form-element">
-        <label>Password</label>
-        <input name="Password" type="password" />
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password"></span>
     </div>
 
     <input type="submit" value="Login" />

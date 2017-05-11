@@ -8,15 +8,15 @@ namespace TaskManager.ViewModels
 {
     public class SignUpTaskViewModel
     {
-        [Required]
+        [Required (ErrorMessage ="You must enter a first name")]
         [Display (Name = "First Name: ")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "You must enter a last name")]
         [Display (Name ="Last Name: ")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required (ErrorMessage= "You must enter a vaild email address")]
         [EmailAddress]
         [Display (Name ="Email: ")]
         public string Email { get; set; }
@@ -25,12 +25,13 @@ namespace TaskManager.ViewModels
         [Display (Name ="Phone Number: ")]
         public object PhoneNumber { get; set; }
 
-        [Required]
+        [Required (ErrorMessage= "You must enter a valid email")]
         [Display (Name = "Password: ")]
         public string Password { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "Passwords must match")]
         [Display (Name = "Verify Password: ")]
+        [Compare("Password")]
         public string Verify { get; set; }
     }
 }
