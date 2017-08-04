@@ -8,6 +8,7 @@ namespace TaskManager.Models
     public class UserData
     {
         static private readonly List<User> Users = new List<User>();
+        static private readonly List<Team> Teams = new List<Team>();
 
         static int nextId = 1;
 
@@ -15,6 +16,13 @@ namespace TaskManager.Models
         {
             user.UserID = nextId++;
             Users.Add(user);
+        }
+
+        public void AddTeam(User user, string team)
+        {
+            TeamData teamData = new TeamData();
+            Team newTeam = teamData.FindByName(team);
+            user.Teams.Add(newTeam);
         }
 
         public User GetById(int id)
@@ -27,6 +35,17 @@ namespace TaskManager.Models
         {
             var user = Users.Find(u => u.Email == email);
             return user;
+        }
+
+        public List<Team> GetTeamToList(User user)
+        {
+            List<Team> teams = new List<Team>();
+            foreach(var team in TeamData.Teams)
+            {
+                teams.Add(team);
+            }
+
+            return teams;
         }
 
         static UserData()

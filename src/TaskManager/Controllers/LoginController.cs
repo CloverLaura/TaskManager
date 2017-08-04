@@ -46,8 +46,21 @@ namespace TaskManager.Controllers
         public IActionResult SignUp()
         {
             SignUpTaskViewModel signUpTaskViewModel = new SignUpTaskViewModel();
+            TeamData teamData = new TeamData();
+            foreach(var team in teamData.TeamsToList())
+            {
+                var newTeam = new SignUpTaskViewModel.Team
+                {
+                    Name = team.Name.ToString(),
+                    //TeamID = team.TeamID
+                };
+
+                signUpTaskViewModel.Teams.Add(newTeam);
+            }
+
             return View(signUpTaskViewModel);
         }
+
 
         [HttpPost]
         public IActionResult SignUp(SignUpTaskViewModel signUpTaskViewModel)
@@ -60,8 +73,18 @@ namespace TaskManager.Controllers
                     LastName = signUpTaskViewModel.LastName,
                     Email = signUpTaskViewModel.Email,
                     Phone = signUpTaskViewModel.PhoneNumber,
-                    Password = signUpTaskViewModel.Password
+                    Password = signUpTaskViewModel.Password,
                 };
+
+                for (var i = 0; i <= signUpTaskViewModel.Teams.Count(); i++)
+                {
+                    string teamName = signUpTaskViewModel.Teams[i].Name.ToString();
+                    UserData data = new UserData();
+                    TeamData teamData = new TeamData();
+                    data.AddTeam(newUser, teamName);
+
+
+                }
 
                 UserData userData = new UserData();
                 userData.Add(newUser);
@@ -71,6 +94,19 @@ namespace TaskManager.Controllers
 
             else
             {
+                
+                TeamData teamData = new TeamData();
+                foreach (var team in teamData.TeamsToList())
+                {
+                    var newTeam = new SignUpTaskViewModel.Team
+                    {
+                        Name = team.Name.ToString(),
+                        //TeamID = team.TeamID
+                    };
+
+                    signUpTaskViewModel.Teams.Add(newTeam);
+                }
+
                 return View(signUpTaskViewModel);
             }
         }

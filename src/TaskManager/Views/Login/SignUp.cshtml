@@ -34,6 +34,24 @@
         <input class="form-control" asp-for="Verify" type="password" />
         <span asp-validation-for="Verify"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="Teams"></label>
+
+        @for (var i = 0; i < Model.Teams.Count(); i++)
+        {
+           // @Html.CheckBoxFor(m => m.Teams[i].Selected)
+            //@Html.HiddenFor(m => m.TeamNames[i])
+            //@Html.HiddenFor(m => m.Teams[i].Value)
+            //<span>@Model.Teams[i].Text</span>
+            @Html.HiddenFor(m => m.Teams[i].Name)
+            @Html.CheckBoxFor(m => m.Teams[i].IsSelected)
+            @Html.DisplayFor(m => m.Teams[i].Name)
+            //@Html.Label(item.TeamID.ToString())
+            //@Html.Label(item.Name)
+            
+        }
+    </div>
+
 
     <input type="submit" value="SignUp!" />
 

@@ -15,5 +15,10 @@ else
     <p>@Model.Email</p>
     <p>@Model.Phone</p>
     <p>@Model.Password</p>
+    @foreach (var team in Model.Teams)
+    {
+        <p>@team.Name.ToString()</p>
+
+    }
 
 }

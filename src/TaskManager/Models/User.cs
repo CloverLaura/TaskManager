@@ -14,6 +14,8 @@ namespace TaskManager.Models
         public object Phone { get; set; }
         public int UserID { get; set; }
 
+        public List<Team> Teams { get; set; }
+
 
     }
 }
