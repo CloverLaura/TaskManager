@@ -11,5 +11,7 @@ namespace TaskManager.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int ProjectID { get; set; }
+        public bool Completed { get; set; }
+        public bool IsTaken { get; set; }
     }
 }

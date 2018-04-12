@@ -1,0 +1,14 @@
+﻿@model TaskManager.ViewModels.AddTasksViewModel
+
+
+
+<h1>Add tasks to your project</h1>
+
+@using (Html.BeginForm("AddTasks", "Project", FormMethod.Post))
+{
+    @Html.EditorForModel()
+    
+    <br />
+    <input type="submit" name="addNewTask" value="Add new task" />
+    <input type="submit" name="finish" value="Finish" />
+}

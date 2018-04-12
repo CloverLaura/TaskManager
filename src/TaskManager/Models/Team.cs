@@ -10,7 +10,16 @@ namespace TaskManager.Models
         public int TeamID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int CreatedBy { get; set; }
+        public List<User> UsersInTeam { get; set; }
+        public List<Project> TeamProjects { get; set; }
 
-        //public IList<User> Users { get; set; }
+        public Team()
+        {
+            UsersInTeam = new List<User>();
+            TeamProjects = new List<Project>();
+        }
+
+        
     }
 }

@@ -7,7 +7,7 @@ namespace TaskManager.Models
 {
     public class TeamData
     {
-        static public List<Team> Teams = new List<Team>();
+        static public List<Team> HardTeams = new List<Team>();
 
         static int nextId = 1;
 
@@ -15,33 +15,40 @@ namespace TaskManager.Models
         public void Add(Team team)
         {
             team.TeamID = nextId++;
-            Teams.Add(team);
+            HardTeams.Add(team);
+        }
+
+        public void AddProjectToTeam(Team team, Project project)
+        {
+            team.TeamProjects.Add(project);
         }
 
         public List<Team> TeamsToList()
         {
-            return TeamData.Teams;
+            return TeamData.HardTeams.ToList();
         }
 
         public Team FindByName(string name)
         {
-            var team = Teams.Find(t => t.Name == name);
+            var team = HardTeams.Find(t => t.Name == name);
             return team;
         }
 
 
         static TeamData()
         {
-            Teams.Add(new Team
+            HardTeams.Add(new Team
             {
                 Name = "Night Stalkers",
                 Description = "Stalks the neighborhood for innocent voters.",
+                CreatedBy = 33333
             });
 
-            Teams.Add(new Team
+            HardTeams.Add(new Team
             {
                 Name = "Money Stealers",
                 Description = "Collects money from unsuspecting do-gooders.",
+                CreatedBy = 33333
             });
         }
     }

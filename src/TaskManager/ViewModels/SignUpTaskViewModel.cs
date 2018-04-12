@@ -10,6 +10,10 @@ namespace TaskManager.ViewModels
 {
     public class SignUpTaskViewModel
     {
+        [Required (ErrorMessage ="You must enter a valid Username")]
+        [Display (Name = "Username:")]
+        public string Username { get; set; }
+
         [Required (ErrorMessage ="You must enter a first name")]
         [Display (Name = "First Name: ")]
         public string FirstName { get; set; }
@@ -23,9 +27,9 @@ namespace TaskManager.ViewModels
         [Display (Name ="Email: ")]
         public string Email { get; set; }
 
-        [Phone]
+        [Required]
         [Display (Name ="Phone Number: ")]
-        public object PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Required (ErrorMessage= "You must enter a valid password")]
         [Display (Name = "Password: ")]
@@ -36,26 +40,29 @@ namespace TaskManager.ViewModels
         [Compare("Password")]
         public string Verify { get; set; }
 
+        /*[Required (ErrorMessage = "You must select a team")]
         [Display (Name = "Select your team(s):")]
-        public List<Team> Teams { get; set; }
+        public List<TeamS> Teams { get; set; }*/
+
+        
 
         TeamData teamData = new TeamData();
 
-        public SignUpTaskViewModel()
+        /*public SignUpTaskViewModel()
         {
-            this.Teams = new List<Team>();
+            this.Teams = new List<TeamS>();
 
             
-        }
+        }*/
 
         
-        //public List<Team> Teams { get; set; }
+       
 
-        public class Team
+        public class TeamS
         {
             public bool IsSelected { get; set; }
             public string Name { get; set; }
-            //public int TeamID { get; set; }
+            public int TeamID { get; set; }
         }
     }
 }
