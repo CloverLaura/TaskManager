@@ -1,0 +1,28 @@
+﻿@model TaskManager.ViewModels.ViewTasksViewModel
+
+<br />
+<br />
+<h3>This are the tasks you have selected from different projects</h3>
+<br />
+<br />
+<br />
+@if(Model.User.UserTasks.Count() == 0)
+{
+    <h4>No tasks to display</h4>
+
+}
+
+@foreach(var task in Model.User.UserTasks)
+{
+    <h4>Task:</h4>
+    <br />
+    <h5>@task.Name</h5>
+    <br />
+    <h6>@task.Description</h6>
+    <form method="post" action="ViewTasks">
+        <input type="hidden" value="@task.Name" name="Name"/>
+    <input type="submit" value="Completed" id="@task.Name" />
+    </form>
+
+}
+

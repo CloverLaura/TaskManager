@@ -5,11 +5,11 @@
 
 <h2>Home</h2>
 <a asp-controller="Project" asp-action="AddProject">Add a new project</a> <br />
-<a asp-controller="Login" asp-action="AddTeam">Add a new team</a> <br/>
-<a asp-controller="Project" asp-action="JoinTeam">Join a team</a> <br/>
+<a asp-controller="Team" asp-action="AddTeam">Add a new team</a> <br/>
+<a asp-controller="Team" asp-action="JoinTeam">Join a team</a> <br/>
 <a asp-controller="Project" asp-action="ViewProjects">View your projects</a> <br/>
-<a asp-controller="Project" asp-action="ViewTasks">View your tasks</a> <br/>
-<a asp-controller="Project" asp-action="FindTasks">Find tasks</a>
+<a asp-controller="Task" asp-action="ViewTasks">View your tasks</a> <br/>
+<a asp-controller="Task" asp-action="FindTasks">Find tasks</a>
 
 @if (String.IsNullOrEmpty(Model.FirstName))
 {

@@ -95,35 +95,7 @@ namespace TaskManager.Controllers
             }
         }
 
-        public IActionResult AddTeam()
-        {
-            return View(new AddTeamViewModel());
-        }
-
-        [HttpPost]
-        public IActionResult AddTeam(AddTeamViewModel addTeamViewModel, string submit)
-        {
-            UserData userData = new UserData();
-            TeamData teamData = new TeamData();
-            if (ModelState.IsValid)
-            {
-                User user = userData.GetById(Convert.ToInt32(HttpContext.Request.Cookies["userCookie"]));
-                Team newTeam = new Team
-                {
-                    Name = addTeamViewModel.Name,
-                    Description = addTeamViewModel.Description,
-                    CreatedBy = user.UserID
-
-                };
-                teamData.Add(newTeam);
-                userData.AddTeam(user, newTeam.Name);
-                return RedirectToAction("Home", new { email = user.Email });
-            }
-            else
-            {
-                return View(addTeamViewModel);
-            }
-        }
+        
 
         public IActionResult Home(string email)
         {
