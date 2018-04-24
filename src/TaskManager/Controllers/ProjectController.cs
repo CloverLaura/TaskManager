@@ -56,14 +56,6 @@ namespace TaskManager.Controllers
 
         }
 
-        
-
-        
-
-        
-
-        
-
         public IActionResult ViewProjects()
         {
             UserData userData = new UserData();
@@ -73,8 +65,6 @@ namespace TaskManager.Controllers
 
             return View(user);
         }
-
-        
 
         public IActionResult TeamProjects(FindTasksViewModel findTasksViewModel)
         {
@@ -88,11 +78,6 @@ namespace TaskManager.Controllers
             return View(teamProjectsViewModel);
         }
 
-        
-
-        
-
-        
 
     }
 }
