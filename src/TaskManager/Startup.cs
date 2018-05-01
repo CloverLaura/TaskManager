@@ -65,7 +65,7 @@ namespace TaskManager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=SignIn}/{id?}");
             });
         }
     }

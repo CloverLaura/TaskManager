@@ -3,13 +3,9 @@
 @{
 }
 
-<h2>Home</h2>
-<a asp-controller="Project" asp-action="AddProject">Add a new project</a> <br />
-<a asp-controller="Team" asp-action="AddTeam">Add a new team</a> <br/>
-<a asp-controller="Team" asp-action="JoinTeam">Join a team</a> <br/>
-<a asp-controller="Project" asp-action="ViewProjects">View your projects</a> <br/>
-<a asp-controller="Task" asp-action="ViewTasks">View your tasks</a> <br/>
-<a asp-controller="Task" asp-action="FindTasks">Find tasks</a>
+<h2>Your Profile</h2>
+<br />
+<br />
 
 @if (String.IsNullOrEmpty(Model.FirstName))
 {
@@ -20,7 +16,6 @@ else
 {
     <h1>Welcome @Model.FirstName @Model.LastName</h1>
     <p>@Model.Email</p>
-    <p>@Model.PhoneNumber</p>
     <p>@Model.Password</p>
     <p>@Model.UserID</p>
 
@@ -46,7 +41,7 @@ else
         <p>Iscompleted: @task.Completed</p>
         <p>IsTaken: @task.IsTaken</p>
         <p>TaskID: @task.TaskID</p>
-        <p>ProjectID: @task.ProjectID</p>
+        
         
 
     }

@@ -27,10 +27,6 @@ namespace TaskManager.ViewModels
         [Display (Name ="Email: ")]
         public string Email { get; set; }
 
-        [Required]
-        [Display (Name ="Phone Number: ")]
-        public string PhoneNumber { get; set; }
-
         [Required (ErrorMessage= "You must enter a valid password")]
         [Display (Name = "Password: ")]
         public string Password { get; set; }

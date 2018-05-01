@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace TaskManager.ViewModels
 {
-    public class IndexViewModel
+    public class SignInViewModel
     {
-        [Required (ErrorMessage ="Invalid Email")]
+        [Required (ErrorMessage ="You must enter an email")]
         [EmailAddress]
         [Display (Name = "Email: ")]
         public string Email { get; set; }
 
-        [Required (ErrorMessage ="Invaild Password")]
+        [Required (ErrorMessage="You must enter a password")]
         [Display (Name ="Password: ")]
         public string Password { get; set; }
 
+        
     }
 }

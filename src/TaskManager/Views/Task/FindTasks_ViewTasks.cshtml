@@ -1,8 +1,8 @@
-﻿@model TaskManager.Models.Project
+﻿@model TaskManager.ViewModels.FindTasks_ViewTasksViewModel
 
-<h1>Tasks for @Model.Name</h1>
+<h1>Tasks for @Model.Project.Name</h1>
 
-@foreach(var task in Model.Tasks)
+@foreach(var task in Model.Project.Tasks)
 {
     <h1>@task.Name</h1>
     <h2>@task.Description</h2>
@@ -23,10 +23,10 @@
         <h2>Taken: No</h2>
         <br />
 
-        <form method="post" action="@task.Name">
+        <form method="post" action="FindTasks_ViewTasks">
             <h2>Would you like to accept this task?</h2>
-            <input type="hidden" id="@task.Name" />
-            <input type="submit" value="yes" />
+            @Html.Hidden("TaskID", task.TaskID)
+            <input type="submit" value="Accept" />
         </form>
 
     }

@@ -20,6 +20,7 @@
 @foreach(var project in Model.AllProjects)
 {
     <h1>Title: <a asp-controller="Task" asp-action="FindTasks_ViewTasks" asp-route-id="@project.ProjectID">@project.Name</a></h1>
+    <h4>Created by: @project.CreatedBy.ToString()</h4>
     <h2> Tasks: @project.Tasks.Count</h2>
 
 

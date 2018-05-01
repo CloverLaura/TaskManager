@@ -10,6 +10,8 @@ namespace TaskManager.ViewModels
     {
         public List<Project> AllProjects { get; set; }
 
+        public Team Team { get; set; }
+
         public TeamProjectsViewModel()
         {
             AllProjects = new List<Project>();

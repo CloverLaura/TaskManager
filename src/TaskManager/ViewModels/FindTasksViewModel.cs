@@ -13,8 +13,6 @@ namespace TaskManager.ViewModels
 
         public string TeamName { get; set; }
 
-        //public Team Team { get; set; }
-
         public IEnumerable<SelectListItem> Teams { get; set; }
 
         public List<Project> AllProjects { get; set; }

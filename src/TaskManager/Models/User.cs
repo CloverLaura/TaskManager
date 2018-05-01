@@ -14,8 +14,8 @@ namespace TaskManager.Models
         public string LastName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string PhoneNumber { get; set; }
         public int UserID { get; set; }
+        public bool LoggedOn { get; set; }
 
         public List<Team> UserTeams { get; private set; }
         public List<Project> UserProjects { get; private set; }

@@ -6,20 +6,11 @@ using TaskManager.Models;
 
 namespace TaskManager.ViewModels
 {
-    public class ViewTasksViewModel
+    public class FindTasks_ViewTasksViewModel
     {
-
-        public User User { get; set; }
-
-        public int TaskID { get; set; }
-
         public Project Project { get; set; }
 
-        public String CreatedBy { get; set; }
-
-
-       
-            
+        public int TaskID { get; set; }
 
     }
 }

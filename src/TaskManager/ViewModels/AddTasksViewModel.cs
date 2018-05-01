@@ -9,7 +9,7 @@ namespace TaskManager.ViewModels
 {
     public class AddTasksViewModel
     {
-        [Required (ErrorMessage = "You must enter a name")]
+        [Required (ErrorMessage = "You must have at least one task in your project")]
         [Display (Name ="Task name:")]
         public string Name { get; set; }
 

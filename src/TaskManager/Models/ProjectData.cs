@@ -36,21 +36,7 @@ namespace TaskManager.Models
 
         static ProjectData()
         {
-            Project project1 = new Project
-            {
-                Name = "Test Project 1",
-                ProjectID = 1111,
-                Description = "Get This Dame Project Done",
-            };
-
-            Project project2 = new Project
-            {
-                Name = "Test Project 2",
-                ProjectID = 2222,
-                Description = "AAAAAAAAA",
-            };
-            allProjects.Add(project1);
-            allProjects.Add(project2);
+            
         }
 
         

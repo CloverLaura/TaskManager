@@ -8,6 +8,8 @@ using TaskManager.ViewModels;
 using static TaskManager.ViewModels.SignUpTaskViewModel;
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Internal.Networking;
+using Microsoft.AspNetCore.Identity;
+using System.Collections;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,35 +18,46 @@ namespace TaskManager.Controllers
 
     public class LoginController : Controller
     {
-
-
-
-        // GET: /<controller>/
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult SignIn()
         {
-
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Index(IndexViewModel indexViewModel)
+
+        
+        public IActionResult SignIn(SignInViewModel signInViewModel)
         {
-            UserData userdata = new UserData();
-            //string password = user.Password;
-            if (ModelState.IsValid & userdata.ValidateEmail(indexViewModel.Email))
+            if (ModelState.IsValid)
+            {
+                UserData userData = new UserData();
+                List<User> users = userData.AllUsersToList();
+                foreach (User u in users)
                 {
-                    UserData userData = new UserData();
-                    User user = userData.GetByEmail(indexViewModel.Email);
-                    Response.Cookies.Append("userCookie", user.UserID.ToString());
-                    return RedirectToAction("Home", new { email = indexViewModel.Email });
+                    if (signInViewModel.Email.ToString() == u.Email & signInViewModel.Password == u.Password)
+                    {
+                        Response.Cookies.Append("userCookie", u.UserID.ToString());
+                        return RedirectToAction("Home");
+                    }
+                    if(signInViewModel.Email.ToString() == u.Email & signInViewModel.Password != u.Password)
+                    {
+                        ModelState.AddModelError("Password","Incorrect Password");
+                        return View(signInViewModel);
+                    }
+                    if (signInViewModel.Email.ToString() != u.Email)
+                    {
+                        ModelState.AddModelError("Email", "Email is not registered");
+                    }
+
                 }
-                else
-                {
-                    return View(indexViewModel);
-                }
-            
-            
+                return View(signInViewModel);
+                
+            }
+            return View(signInViewModel);
         }
+            
+           
+        
 
         [HttpGet]
         public IActionResult SignUp()
@@ -58,52 +71,103 @@ namespace TaskManager.Controllers
         public IActionResult SignUp(SignUpTaskViewModel signUpTaskViewModel)
         {
             UserData userdata = new UserData();
-            if (userdata.IsValidUsername(signUpTaskViewModel.Username))
+            if (!userdata.IsValidUsername(signUpTaskViewModel.Username))
             {
-                if (ModelState.IsValid & userdata.IsValidPhone(signUpTaskViewModel.PhoneNumber))
+                ModelState.AddModelError("Username", "Username already taken");
+            }
+            List<User> users = userdata.AllUsersToList();
+            foreach(User u in users)
+            {
+                if(signUpTaskViewModel.Email == u.Email)
                 {
-
-                User newUser = new User
-                {
-                    Username = signUpTaskViewModel.Username,
-                    FirstName = signUpTaskViewModel.FirstName,
-                    LastName = signUpTaskViewModel.LastName,
-                    Email = signUpTaskViewModel.Email,
-                    PhoneNumber = signUpTaskViewModel.PhoneNumber,
-                    Password = signUpTaskViewModel.Password,
-                };
-
-                UserData userData = new UserData();
-                userData.Add(newUser);
-                User user = userData.GetByEmail(signUpTaskViewModel.Email);
-                Response.Cookies.Append("userCookie", user.UserID.ToString());
-
-                return RedirectToAction("Home", new { email = signUpTaskViewModel.Email });
-
-                }
-                else
-                {
-                    ModelState.AddModelError("PhoneNumber", "You must enter a vaild phone number");
+                    ModelState.AddModelError("Email", "Email already registered");
                     return View(signUpTaskViewModel);
                 }
             }
-
-            else
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("Username", "Username already taken");
-                return View(signUpTaskViewModel);
+
+            User newUser = new User
+            {
+                Username = signUpTaskViewModel.Username,
+                FirstName = signUpTaskViewModel.FirstName,
+                LastName = signUpTaskViewModel.LastName,
+                Email = signUpTaskViewModel.Email,
+                Password = signUpTaskViewModel.Password,
+            };
+
+            UserData userData = new UserData();
+            userData.Add(newUser);
+            User user = userData.GetByEmail(signUpTaskViewModel.Email);
+            Response.Cookies.Append("userCookie", user.UserID.ToString());
+
+            return RedirectToAction("Home", new { email = signUpTaskViewModel.Email });
+
             }
+            return View(signUpTaskViewModel);
+            
         }
 
         
 
-        public IActionResult Home(string email)
+       
+
+        public IActionResult Home()
         {
             UserData userData = new UserData();
+            string cookie = HttpContext.Request.Cookies["userCookie"];
+            int userID = Convert.ToInt32(cookie);
+            User user = userData.GetById(userID);
+            user.LoggedOn = true;
 
-            return View(userData.GetByEmail(email));
-            
+            return View(user);
         }
+
+        public IActionResult SearchForUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SearchForUser(SearchForUserViewModel searchForUserViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                UserData userData = new UserData();
+                List<User> users = userData.AllUsersToList();
+                foreach (User u in users)
+                {
+                    if (u.Username == searchForUserViewModel.Username)
+                    {
+                        return RedirectToAction("ViewSearchedUser", new { id = u.UserID });
+                    }
+                }
+                ModelState.TryAddModelError("Username", "Username not found");
+                return View(searchForUserViewModel);
+            }
+            ModelState.AddModelError("Username", "You must enter a Username");
+            return View(searchForUserViewModel);
+        }
+
+        public IActionResult ViewSearchedUser(int id)
+        {
+            UserData userData = new UserData();
+            User user = userData.GetById(id);
+            return View(user);
+        }
+
+        public IActionResult SignOut()
+        {
+            UserData userData = new UserData();
+            string cookie = HttpContext.Request.Cookies["userCookie"];
+            int userID = Convert.ToInt32(cookie);
+            User user = userData.GetById(userID);
+            user.LoggedOn = false;
+
+            return RedirectToAction("SignIn", "Login");
+        }
+
+       
     }
 
     

@@ -24,34 +24,40 @@ namespace TaskManager.Controllers
         [HttpPost]
         public IActionResult AddProject(AddViewModel addViewModel)
         {
-            ProjectData projectData = new ProjectData();
-            UserData userData = new UserData();
-            TeamData teamData = new TeamData();
-
-            Project project = new Project
+            if (ModelState.IsValid)
             {
-                Name = addViewModel.Name,
-                Description = addViewModel.Description,
+                ProjectData projectData = new ProjectData();
+                UserData userData = new UserData();
+                TeamData teamData = new TeamData();
 
-            };
-            projectData.Add(project);
-            Response.Cookies.Append("projectCookie", project.ProjectID.ToString());
-            string cookie=HttpContext.Request.Cookies["userCookie"];
-            int userID = Convert.ToInt32(cookie);
-            User user = userData.GetById(userID);
-            userData.AddProject(user, project);
+                string cookie = HttpContext.Request.Cookies["userCookie"];
+                int userID = Convert.ToInt32(cookie);
+                User user = userData.GetById(userID);
 
-            if(user.UserTeams.Count() != 0)
-            {
-                foreach(Team team in user.UserTeams)
+                Project project = new Project
                 {
-                    if (user.UserID == team.CreatedBy)
+                    Name = addViewModel.Name,
+                    Description = addViewModel.Description,
+                    CreatedBy = user.Username
+
+                };
+                projectData.Add(project);
+                Response.Cookies.Append("projectCookie", project.ProjectID.ToString());
+                userData.AddProject(user, project);
+
+                if (user.UserTeams.Count() != 0)
+                {
+                    foreach (Team team in user.UserTeams)
                     {
-                        teamData.AddProjectToTeam(team, project);
+                        if (user.UserID == team.CreatedBy)
+                        {
+                            teamData.AddProjectToTeam(team, project);
+                        }
                     }
                 }
+                return RedirectToAction("AddTasks", "Task", new { projectID = project.ProjectID });
             }
-            return RedirectToAction("AddTasks", "Task", new { projectID = project.ProjectID });
+            return View(addViewModel);
 
 
         }
@@ -71,6 +77,7 @@ namespace TaskManager.Controllers
             TeamProjectsViewModel teamProjectsViewModel = new TeamProjectsViewModel();
             TeamData teamData = new TeamData();
             Team selectedTeam = teamData.FindByName(findTasksViewModel.TeamName);
+            teamProjectsViewModel.Team = selectedTeam;
             foreach(Project project in selectedTeam.TeamProjects)
             {
                 teamProjectsViewModel.AllProjects.Add(project);

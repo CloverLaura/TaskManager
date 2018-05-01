@@ -17,7 +17,13 @@ namespace TaskManager.Models
         public void Add(User user)
         {
             user.UserID = nextId++;
+            user.LoggedOn = false;
             Users.Add(user);
+        }
+
+        public List<User> AllUsersToList()
+        {
+            return Users.ToList();
         }
 
         public void AddTeam(User user, string team)
@@ -46,6 +52,12 @@ namespace TaskManager.Models
         public User GetByEmail(string email)
         {
             User user = Users.Find(u => u.Email == email);
+            return user;
+        }
+
+        public User SearchForUser(string username)
+        {
+            User user = Users.Find(u => u.Username == username);
             return user;
         }
 
@@ -123,8 +135,7 @@ namespace TaskManager.Models
                 FirstName = "Laura",
                 LastName = "Clover",
                 Email = "laura.clover3@gmail.com",
-                Password = "Monkey",
-                PhoneNumber = "(314) 210-7531",
+                Password = "monkey",
                 UserID = 33
             };
             TeamData teamData = new TeamData();

@@ -14,14 +14,17 @@
 
 @foreach(var task in Model.User.UserTasks)
 {
-    <h4>Task:</h4>
-    <br />
-    <h5>@task.Name</h5>
+    <h4>Task: @task.Name</h4>
+    <h4>For project: @task.Project.Name.ToString()</h4>
+    <h5>Created by: @task.Project.CreatedBy.ToString()</h5>
+
     <br />
     <h6>@task.Description</h6>
+    <br />
+    <p>Have you completed this task?</p>
     <form method="post" action="ViewTasks">
-        <input type="hidden" value="@task.Name" name="Name"/>
-    <input type="submit" value="Completed" id="@task.Name" />
+        <input type="hidden" value="@task.TaskID" name="TaskID"/>
+    <input type="submit" value="Completed" id="@task.TaskID" />
     </form>
 
 }

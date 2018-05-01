@@ -23,6 +23,11 @@ namespace TaskManager.Controllers
         {
             UserData userData = new UserData();
             TeamData teamData = new TeamData();
+            if(teamData.FindByName(addTeamViewModel.Name) != null & addTeamViewModel.Name != null)
+            {
+                ModelState.AddModelError("Name", "Team name already being used");
+                return View(addTeamViewModel);
+            }
             if (ModelState.IsValid)
             {
                 User user = userData.GetById(Convert.ToInt32(HttpContext.Request.Cookies["userCookie"]));

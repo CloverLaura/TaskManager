@@ -30,6 +30,22 @@ namespace TaskManager.Controllers
             UserData userData = new UserData();
             int projectID = Convert.ToInt32(HttpContext.Request.Cookies["projectCookie"]);
             Project project = projectData.GetByID(projectID);
+            if (project.Tasks.Count() >= 1 & !string.IsNullOrEmpty(finish))
+            {
+                if (ModelState.IsValid)
+                {
+                    Models.Task task = new Models.Task
+                    {
+                        Name = obj.Name,
+                        Description = obj.Description,
+                        Project = project
+                    };
+
+                    taskData.AddTask(project, task);
+                    taskData.Add(task);
+                }
+                return RedirectToAction("Home", "Login");
+            }
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(addNewTask))
@@ -39,7 +55,7 @@ namespace TaskManager.Controllers
                     Models.Task task = new Models.Task();
                     task.Name = obj.Name;
                     task.Description = obj.Description;
-                    task.ProjectID = project.ProjectID;
+                    task.Project = project;
                     taskData.AddTask(project, task);
                     taskData.Add(task);
                     return RedirectToAction("AddTasks", "Task", new { projectID = projectID });
@@ -52,7 +68,7 @@ namespace TaskManager.Controllers
                     {
                         Name = obj.Name,
                         Description = obj.Description,
-                        ProjectID = projectID
+                        Project = project
                     };
 
                     taskData.AddTask(project, task);
@@ -109,22 +125,23 @@ namespace TaskManager.Controllers
         public IActionResult FindTasks_ViewTasks(int id)
         {
             ProjectData projectData = new ProjectData();
+            FindTasks_ViewTasksViewModel findTasks_ViewTasksViewModel = new FindTasks_ViewTasksViewModel();
             Project project = projectData.GetByID(id);
-
-            return View(project);
+            findTasks_ViewTasksViewModel.Project = project;
+            return View(findTasks_ViewTasksViewModel);
         }
 
         [HttpPost]
-        public IActionResult FindTasks_ViewTasks(string id)
+        public IActionResult FindTasks_ViewTasks(FindTasks_ViewTasksViewModel findTasks_ViewTasksViewModel)
         {
             TaskData taskData = new TaskData();
             UserData userData = new UserData();
             string cookie = HttpContext.Request.Cookies["userCookie"];
             int userID = Convert.ToInt32(cookie);
             User user = userData.GetById(userID);
-            Models.Task task = taskData.GetByName(id);
+            Models.Task task = taskData.GetByID(findTasks_ViewTasksViewModel.TaskID);
             task.IsTaken = true;
-
+            task.TakenBy = user.Username;
             userData.AddTask(user, task);
 
             return RedirectToAction("ViewTasks");
@@ -134,11 +151,13 @@ namespace TaskManager.Controllers
         public IActionResult ViewTasks()
         {
             UserData userData = new UserData();
+            ProjectData projectData = new ProjectData();
             string cookie = HttpContext.Request.Cookies["userCookie"];
             int userID = Convert.ToInt32(cookie);
             User user = userData.GetById(userID);
             ViewTasksViewModel viewTasksViewModel = new ViewTasksViewModel();
             viewTasksViewModel.User = user;
+
             return View(viewTasksViewModel);
         }
 
@@ -146,7 +165,7 @@ namespace TaskManager.Controllers
         public IActionResult ViewTasks(ViewTasksViewModel viewTasksViewModel)
         {
             TaskData taskData = new TaskData();
-            Models.Task task = taskData.GetByName(viewTasksViewModel.Name);
+            Models.Task task = taskData.GetByID(viewTasksViewModel.TaskID);
             task.Completed = true;
 
             UserData userData = new UserData();
